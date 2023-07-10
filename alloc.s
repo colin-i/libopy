@@ -16,8 +16,8 @@ function finalize()
 		incst n
 		add end n
 		while n<^end
-			importx "Py_DECREF" Py_DECREF   #this is also a macro
-			call Py_DECREF(n#)
+			importx "Py_DecRef" Py_DecRef   #Py_DECREF is a macro
+			call Py_DecRef(n#)
 			incst n
 		endwhile
 		call null(m)  #why null? let a potential error print at py side (example calling Py_Fin.. without init)
