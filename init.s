@@ -1,11 +1,6 @@
 
 format elfobj64
 
-functionx object()
-	valuex *pointer#1
-	#valuex childs#1
-endfunction
-
 import "modules" modules
 import "finalize" finalize
 
