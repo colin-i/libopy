@@ -8,6 +8,8 @@ function modules()
 	return #mods
 endfunction
 
+importx "free" free
+
 function finalize()
 	sv m;setcall m modules()
 	if m#!=(NULL)
@@ -16,6 +18,7 @@ function finalize()
 		incst n
 		add end n
 		while n<^end
+			call free(n#:object.childs)
 			importx "Py_DecRef" Py_DecRef   #Py_DECREF is a macro
 			call Py_DecRef(n#:object.pointer)
 			add n (!!object)
@@ -25,14 +28,28 @@ function finalize()
 endfunction
 
 function null(sv a)
-	importx "free" free
 	call free(a#)
 	set a# (NULL)
 endfunction
 
-importx "malloc" malloc
 importx "realloc" realloc
 importx "printf" printf
+
+function bralloc(sv pmem,sd sz)
+	sv mem;set mem pmem#
+	sd allsize;set allsize mem#
+	add allsize sz
+	setcall mem realloc(mem,allsize)
+	if mem!=(NULL)
+		set pmem# mem
+		add mem# sz
+		return (good_return)
+	endif
+	call printf("realloc error")
+	return (bad_return)
+endfunction
+
+importx "malloc" malloc
 
 aftercall ebool
 
@@ -43,21 +60,6 @@ function alloc(sv pmem,sd sz)
 		ret
 	endif
 	call printf("malloc error")
-	aftercallactivate
-	return (bad_return)
-endfunction
-
-function ralloc(sv pmem,sd sz)
-	sv mem;set mem pmem#
-	sd allsize;set allsize mem#
-	add allsize sz
-	setcall mem realloc(mem,allsize)
-	if mem!=(NULL)
-		set pmem# mem
-		add mem# sz
-		ret
-	endif
-	call printf("realloc error")
 	aftercallactivate
 	return (bad_return)
 endfunction

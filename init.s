@@ -5,7 +5,6 @@ import "modules" modules
 import "finalize" finalize
 
 include "com.h"
-const good_return=0
 
 functionx opy_finalize()
 	call finalize()
@@ -14,13 +13,15 @@ functionx opy_finalize()
 	call Py_FinalizeEx()  #without Ex? void return on C, is call Ex for asm (tested)
 endfunction
 
+import "bralloc" bralloc
+
+importx "free" free
 importx "Py_Initialize" Py_Initialize
 importx "PyImport_ImportModule" PyImport_ImportModule
 
 importaftercall ebool
 
 import "alloc" alloc
-import "ralloc" ralloc
 
 #zero on success
 functionx opy_initialize()
@@ -37,17 +38,22 @@ endfunction
 
 #PyObject
 functionx opy_import(ss name)
-	sv m;setcall m modules()
-	call ralloc(m,(!!object))
-	set m m#
+	sv temp;call alloc(#temp,:)
 
-	sd modul;setcall modul PyImport_ImportModule(name)
-	if modul!=(NULL)
-		sd sz=-:;add sz m#
-		incst m;add m sz
-		set m# modul
-		return (good_return)
+	sv m;setcall m modules()
+	sd b;setcall b bralloc(m,(!!object))
+	if b==(good_return)
+		set m m#
+		sd modul;setcall modul PyImport_ImportModule(name)
+		if modul!=(NULL)
+			sd sz=-!!object;add sz m#
+			incst m;add m sz
+			set m#:object.pointer modul
+			set m#:object.childs temp
+			return (good_return)
+		endif
+		sub m# (!!object)    #must decrement
 	endif
-	sub m# :    #must decrement
+	call free(temp)
 	return (bad_return)
 endfunction
