@@ -42,7 +42,7 @@ functionx opy_import(ss name)
 
 	sv m;setcall m modules()
 	sd b;setcall b bralloc(m,(!!object))
-	if b==(good_return)
+	if b=(good_return)
 		set m m#
 		sd modul;setcall modul PyImport_ImportModule(name)
 		if modul!=(NULL)
