@@ -41,18 +41,18 @@ functionx opy_import(ss name)
 	sv temp;call alloc(#temp,:)
 
 	sv m;setcall m modules()
-	sd b;setcall b bralloc(m,(!!object))
+	sd b;setcall b bralloc(m,(\\object))
 	if b=(good_return)
 		set m m#
 		sd modul;setcall modul PyImport_ImportModule(name)
 		if modul!=(NULL)
-			sd sz=-!!object;add sz m#
+			sd sz=-\\object;add sz m#
 			incst m;add m sz
 			set m#:object.pointer modul
 			set m#:object.childs temp
 			return (good_return)
 		endif
-		sub m# (!!object)    #must decrement
+		sub m# (\\object)    #must decrement
 	endif
 	call free(temp)
 	return (bad_return)

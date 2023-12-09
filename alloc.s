@@ -21,7 +21,7 @@ function finalize()
 			call free(n#:object.childs)
 			importx "Py_DecRef" Py_DecRef   #Py_DECREF is a macro
 			call Py_DecRef(n#:object.pointer)
-			add n (!!object)
+			add n (\\object)
 		endwhile
 		call null(m)  #why null? let a potential error print at py side (example calling Py_Fin.. without init)
 	endif
@@ -60,6 +60,6 @@ function alloc(sv pmem,sd sz)
 		ret
 	endif
 	call printf("malloc error")
-	aftercallactivate
+	aftercallenable
 	return (bad_return)
 endfunction
