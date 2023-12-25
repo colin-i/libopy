@@ -19,7 +19,7 @@ importx "free" free
 importx "Py_Initialize" Py_Initialize
 importx "PyImport_ImportModule" PyImport_ImportModule
 
-importaftercall ebool
+aftercallimport ebool
 
 import "alloc" alloc
 

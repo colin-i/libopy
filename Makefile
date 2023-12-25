@@ -8,7 +8,7 @@ OLINK=ounused
 endif
 
 ifndef linkerflags
-linkerflags=-s
+linkerflags=-s -O3
 #-O (same as actionswf)
 endif
 
@@ -26,9 +26,9 @@ items = init
 aritems = alloc
 
 $(foreach var,$(items),$(eval obs += ${var}.o))
-$(foreach var,$(items),$(eval logs += ${var}.s.log))
+$(foreach var,$(items),$(eval logs += ${var}.oc.log))
 $(foreach var,$(aritems),$(eval aobs += ${var}.o))
-$(foreach var,$(aritems),$(eval alogs += ${var}.s.log))
+$(foreach var,$(aritems),$(eval alogs += ${var}.oc.log))
 
 ${name}: ${exte} ${obs}
 	${OLINK} ${alogs} ${logs}
@@ -38,7 +38,7 @@ ${name}: ${exte} ${obs}
 ${exte}: ${aobs}
 	$(AR) cr ${exte} ${aobs}
 
-%.o: %.s
+%.o: %.oc
 	${OCOMP} $< ${OFLAGS}
 
 install: all
