@@ -64,4 +64,4 @@ uninstall:
 test:
 	echo "Nothing"
 
-.PHONY: all install clean distclean uninstall test
+.PHONY: all install clean clean-compile clean-link distclean uninstall test
