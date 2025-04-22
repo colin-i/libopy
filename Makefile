@@ -33,7 +33,7 @@ $(foreach var,$(aritems),$(eval alogs += ${var}.oc.log))
 ${name}: ${exte} ${obs}
 	${OLINK} ${alogs} ${logs}
 	@echo
-	$(CC) ${linkerflags} ${obs} -shared -o ${name} -lpython3.11 -L. -l:${exte} -Wl,--exclude-libs ${exte}
+	$(CC) ${linkerflags} ${obs} -shared -o ${name} -lpython3.12 -L. -l:${exte} -Wl,--exclude-libs ${exte}
 
 ${exte}: ${aobs}
 	$(AR) cr ${exte} ${aobs}

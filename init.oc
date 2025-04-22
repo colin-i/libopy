@@ -4,7 +4,7 @@ format elfobj64
 import "modules" modules
 import "finalize" finalize
 
-include "com.h"
+include "com.oh"
 
 functionx opy_finalize()
 	call finalize()
